@@ -219,3 +219,10 @@ The user asked for a rebrand to "Golden Hills" (the hills around the Bay Area), 
   - **Back link:** the "←" link back to the collection shows only when the game is served inside the collection.
   - **Order:** the site goes to `goldenhills.tzpersonal.workers.dev` first, then to goldenhills.tz.mt once the deploy lead reports the tz.mt zone active.
   - **Saves:** they don't carry between the two origins.
+- **D35 Safii peeks instead of hopping** (user, 2026-10-31: "make it so that safii has no sunflower in this version, and that only her eyes poke out of the tree at the end").
+  - **What:** `safii.mjs` is now just her eyes: two tall glossy black ovals with catchlights.
+  - **Where:** they sit in a soft, dark gap in the front of the oak's canopy, turned toward the camera and drawn over the leaves.
+  - **Sequence:** after the life sweep the camera closes in on the oak. The eyes pop open, blink twice, glance left and right, then say "hi! thanks for the rain!" in the bubble.
+  - **Afterwards:** they stay in the oak and blink now and then.
+  - **Sound:** a rustle and a chirp replace the hop boings.
+  - **Removed:** the sunflower and the jelly body.

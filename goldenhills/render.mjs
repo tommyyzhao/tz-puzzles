@@ -151,8 +151,22 @@ export function createRenderer(canvas, world, { frameOf, lifeOf, onCue, reducedM
 
   // ---- Hero ----
   const girl = createHero(), hero = new THREE.Group(), heroBody = new THREE.Group();
-  // Safii lives under the old oak and comes out once it drinks. SAFII_AT: where she sits afterwards (beside the pool).
-  const safii = createSafii(), SAFII_AT = { x: 17, y: 16 }, SAFII_FROM = [{ x: 15.2, y: 14.4, h: -0.22 }, { x: 16.1, y: 15.2, h: -0.08 }];
+  // Safii lives in the old oak. Once it drinks, her eyes peek out of a dark gap in the leaves at the front of the canopy,
+  // turned to face the camera. EYES: offset from the oak's centre (x, height, z toward the camera).
+  const safii = createSafii(), EYES = [0.15, 1.42, 1.32];
+  // A dark gap in the leaves around her eyes, soft-edged so it reads as shadow inside the canopy.
+  const hollow = new THREE.Mesh(new THREE.CircleGeometry(0.5, 28).scale(1.2, 0.8, 1), new THREE.ShaderMaterial({
+    transparent: true, depthTest: false, depthWrite: false,
+    vertexShader: 'varying vec2 vP; void main() { vP = position.xy / vec2(0.6, 0.4); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+    fragmentShader: 'varying vec2 vP; void main() { float d = length(vP); gl_FragColor = vec4(0.1, 0.2, 0.07, 0.85 * smoothstep(1.0, 0.5, d)); }',
+  }));
+  hollow.position.z = -0.03; hollow.renderOrder = 12; safii.root.add(hollow);
+  hollow.visible = false;
+  function placeSafii() {
+    const [x, z] = local('v', world.landmark.x, world.landmark.y);
+    safii.root.position.set(x + EYES[0], EYES[1], z + EYES[2]); safii.root.rotation.set(-PITCH, 0, 0);
+    roomGroup.add(safii.root); hollow.visible = safii.root.visible;
+  }
   heroBody.add(girl.root);
   hero.add(heroBody);
   const hoverRing = new THREE.Mesh(geo.ring, mat.ring);
@@ -257,8 +271,8 @@ export function createRenderer(canvas, world, { frameOf, lifeOf, onCue, reducedM
     updateLids(s, wet);
     if (roomId === 'v' && world.landmark) heartTree(s, now);
     if (roomId === 'v' && s.awake.includes(world.heart)) {
-      roomGroup.add(safii.root);
-      if (!safii.busy() && !anim.finale) { const [x, z] = local('v', SAFII_AT.x, SAFII_AT.y); safii.root.position.set(x, 0, z); }
+      if (!anim.finale) safii.show(); else if (!anim.finale.fired.has('safii-out')) safii.hide();
+      placeSafii();
     }
     spawnButterflies(s, life);
     // Light warms as the valley wakes: flat, cool noon while dry; low golden sun once alive.
@@ -617,10 +631,10 @@ export function createRenderer(canvas, world, { frameOf, lifeOf, onCue, reducedM
       f.speed = 2.2; [cam.tx, cam.tz] = heart; cam.tspan = 9;
     } else if (t < f.tHeart + 6.4) { cue('bloom', true); f.speed = 1.2; cam.tx = 0; cam.tz = 0; cam.tspan = world.rooms.v.grid.length + 1; }
     else if (t < f.tHeart + 11.2) {
-      // Safii hops out from under the old oak, then says hi.
-      f.speed = 2; [cam.tx, cam.tz] = local('v', 16.3, 15.6); cam.tspan = 4.6;
-      if (t > f.tHeart + 7 && cue('safii-out', true)) safiiOut(now);
-      if (t > f.tHeart + 7 + 3 * 0.42 + 0.3 && cue('safii-hi', true)) safii.say(now);
+      // Safii's eyes peek out of the old oak, blink, look about, then she says hi.
+      f.speed = 2; [cam.tx, cam.tz] = local('v', world.landmark.x + 0.15, world.landmark.y + 1.6); cam.tspan = 4.6;
+      if (t > f.tHeart + 7.2 && cue('safii-out', true)) { safii.peek(now); placeSafii(); }
+      if (t > f.tHeart + 7.2 + 2.2 && cue('safii-hi', true)) safii.say(now);
     } else { f.speed = 2; target(true); }   // settle back on the player
     // The stone box swells as the water comes out of it.
     const bm = objects.get(world.containerOf.v), kb = (t - f.lead + 0.5) / 0.7;
@@ -633,18 +647,11 @@ export function createRenderer(canvas, world, { frameOf, lifeOf, onCue, reducedM
     }
     if (t > end) { anim.finale = null; pulse.visible = false; target(); cue('done', true); }
   }
-  function safiiOut(now) {
-    const pts = [...SAFII_FROM, { ...SAFII_AT, h: 0 }].map(p => { const [x, z] = local('v', p.x, p.y); return [x, p.h, z]; });
-    pts.push(pts.at(-1));                          // one more hop on the spot, to land facing you
-    roomGroup.add(safii.root); safii.hop(pts, now);
-    const [x, z] = local('v', SAFII_FROM[0].x, SAFII_FROM[0].y);
-    fx.emit({ at: [x, 0.1, z], vel: [0, 1.6, 0], spread: 1.4, count: 30, color: [0xb9e24a, 0x8fd13a, 0xf6e7a0], life: 0.9, size: 0.1, gravity: -4, radius: 0.3 });
-  }
   // Screen position just above Safii's head while she is talking, for the speech bubble; null otherwise.
   const head = new THREE.Vector3();
   function safiiSpeech() {
     if (!safii.talking() || !safii.root.parent || roomId !== 'v') return null;
-    safii.root.getWorldPosition(head); head.y += 1.25;
+    safii.root.getWorldPosition(head); head.y += 0.42;
     const v = head.project(camera);
     return [(v.x + 1) / 2 * canvas.clientWidth, (1 - v.y) / 2 * canvas.clientHeight];
   }
@@ -717,6 +724,7 @@ export function createRenderer(canvas, world, { frameOf, lifeOf, onCue, reducedM
     endCine();
     if (!anim.finale) return;
     const f = anim.finale;
+    if (state?.awake.includes(world.heart) && roomId === 'v') { safii.show(); placeSafii(); }
     anim.finale = null; pulse.visible = false; target();
     objects.get(world.containerOf.v)?.scale.setScalar(1);
     if (!f.fired.has('done')) onCue?.('done');

@@ -144,7 +144,7 @@ export function createAudio(world) {
       [7, 8, 9, 10, 8].forEach((k, i) => bell(SCALE[k], { at: 1.6 + i * 0.5, gain: 0.05 }));
       return;
     }
-    if (ev === 'safii-hop') { [0, 0.42, 0.84, 1.26].forEach(at => { voice(260, { type: 'sine', dur: 0.22, gain: 0.12, slide: 2.2, at }); noise({ dur: 0.08, gain: 0.03, freq: 900, at: at + 0.38 }); }); return; }
+    if (ev === 'safii-peek') { noise({ dur: 0.25, gain: 0.05, freq: 2600, sweep: 0.5, q: 0.8 }); voice(520, { type: 'sine', dur: 0.14, gain: 0.08, slide: 1.6, at: 0.3 }); [0.75, 1.0].forEach(at => voice(1400, { type: 'sine', dur: 0.04, gain: 0.04, at })); return; }
     if (ev === 'safii-hi') { [[620, 0], [880, 0.12], [1040, 0.22]].forEach(([f, at]) => voice(f, { type: 'triangle', dur: 0.16, gain: 0.08, slide: 1.25, at, attack: 0.01 })); return; }
     if (!Array.isArray(ev)) return;
     for (const e of ev) {
