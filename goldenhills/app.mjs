@@ -393,13 +393,13 @@ function finaleCue(cue) {
   if (cue === 'heart') { say('The old oak drinks.', 4000); sound?.('finale'); }
   if (cue === 'bloom') say('The rain comes back to Golden Hills.', 3500);
   if (cue === 'safii-out') sound?.('safii-peek');
-  if (cue === 'safii-hi') { sound?.('safii-hi'); $('status').textContent = ''; $('bubble').setAttribute('aria-hidden', 'false'); say('Safii: hi! thanks for the rain!', 4000); }
+  if (cue === 'safii-hi') { sound?.('safii-hi'); $('status').textContent = ''; $('bubble').setAttribute('aria-hidden', 'false'); say('hi! thanks for the rain!', 4000); }
   if (cue === 'done' && complete(world, state())) showEnding();
   if (cue === 'cine-done' || cue === 'done') updatePrompt();
 }
 function finale() {
   if (view.busy()) return;       // the renderer is running the sequence and cues the words
-  say('The river ran out of the stone box and into the old oak. The rain comes back to Golden Hills. A pair of eyes peeks out of the oak. Safii: hi! thanks for the rain!', 9000);
+  say('The river ran out of the stone box and into the old oak. The rain comes back to Golden Hills. A pair of eyes peeks out of the oak: hi! thanks for the rain!', 9000);
   sound?.('finale');
   setTimeout(showEnding, 300);
 }

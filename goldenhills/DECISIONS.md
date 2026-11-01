@@ -226,3 +226,8 @@ The user asked for a rebrand to "Golden Hills" (the hills around the Bay Area), 
   - **Afterwards:** they stay in the oak and blink now and then.
   - **Sound:** a rustle and a chirp replace the hop boings.
   - **Removed:** the sunflower and the jelly body.
+- **D36 No name, just the URL** (user, 2026-10-31: "it should not say "Safii" anywhere, but just present the url").
+  - **Ending modal:** the line "Say hi to Safii at safii.tz.mt" is now just the link `safii.tz.mt`.
+  - **Speech:** the status line and the reduced-motion text say "hi! thanks for the rain!" with no speaker name. The bubble already had none.
+  - **Kept:** internal identifiers (`safii.mjs`, cue names) are not shown to players.
+  - **Reverse:** restore the text in `index.html` (ending dialog) and the two `say` calls in `app.mjs`.

@@ -2,6 +2,10 @@
 
 2026-10-28. **Human N=0. Cognitive fidelity UNVALIDATED / STILL UNTESTED.** Automated interaction is not human playtesting. Primary original-game interaction is limited to the Type Help retrieval trace in `EVIDENCE.md`; other selected comparisons have developer descriptions with explicit precision gaps.
 
+## Golden Hills: no name in the ending — 2026-10-31
+
+The ending modal shows only the link `safii.tz.mt`, and the speech has no speaker name (D36). The ending dialog appears about 15 s after the last push from the reset save (screenshot checked); 17/17 Golden Hills tests; 29/29 interaction checks, no console messages. Deployed as Worker version `b139dad5`: the live `/` and `app.mjs` match local byte for byte, `/witness.mjs` is 404, `/vendor/*` is immutable.
+
 ## Golden Hills: Safii eyes only — 2026-10-31
 
 Safii no longer hops out (D35): only her eyes peek out of a dark gap in the old oak's canopy. They open, blink, glance about, and say "hi! thanks for the rain!" in the bubble; then the ending modal appears. This replaces the hop-out described in the next section.
