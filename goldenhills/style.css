@@ -1,0 +1,137 @@
+:root {
+  --ink: #2b2a26;
+  --ink-soft: #5a5750;
+  --paper: rgba(250, 247, 240, 0.86);
+  --paper-solid: #faf7f0;
+  --accent: #2d7aa6;
+  --ring: #1d5f86;
+  --radius: 18px;
+  --shadow: 0 8px 30px rgba(40, 38, 30, 0.16);
+  font-family: ui-rounded, "SF Pro Rounded", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #bfd8d2; overflow: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--ring); outline-offset: 2px; }
+
+#game { position: fixed; inset: 0; }
+/* Bay sky: summer haze and a fog bank while the hills are dry; clear blue as the rain returns (--clear: 0 to 1). */
+html, body { background: linear-gradient(180deg, #a9d4ef 0%, #d4e6ee 45%, #f1e3bf 100%); }
+#game > .fog { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgba(236, 238, 236, 0.92) 0%, rgba(232, 234, 230, 0.75) 40%, rgba(240, 233, 214, 0.35) 100%);
+  opacity: calc(1 - var(--clear, 0) * 0.85); transition: opacity 4s ease; }
+.backdrop { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.vignette { position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 62% 58% at 50% 50%, transparent 72%, rgba(230, 228, 214, 0.55) 100%); }
+.fade { position: absolute; inset: 0; pointer-events: none; opacity: 0; background: radial-gradient(circle at 50% 45%, #fbf7ee, #dbe7e2); }
+#scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pinch-zoom; }
+
+.hud { position: absolute; left: 0; right: 0; display: flex; align-items: center; gap: 10px; pointer-events: none;
+  padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 12px max(12px, env(safe-area-inset-left)); }
+.hud > * { pointer-events: auto; }
+.top { top: 0; }
+.bottom { bottom: 0; justify-content: space-between; align-items: flex-end;
+  padding-bottom: max(14px, env(safe-area-inset-bottom)); }
+
+.chip { min-width: 44px; height: 44px; border-radius: 22px; border: 0; background: var(--paper); box-shadow: var(--shadow);
+  display: inline-grid; place-items: center; text-decoration: none; color: var(--ink); font-size: 18px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.chip[aria-pressed="false"] { opacity: 0.55; }
+.place { padding: 8px 14px; border-radius: 22px; background: var(--paper); box-shadow: var(--shadow);
+  font-weight: 600; font-size: 15px; letter-spacing: 0.01em; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.place:empty { visibility: hidden; }
+.place-wrap { margin: 0 auto 0 4px; display: grid; justify-items: start; gap: 4px; pointer-events: none; }
+.place-wrap .place { margin: 0; }
+/* Seven pools: six small, then the heart. Each fills when its pool wakes. */
+.pools { display: flex; align-items: center; gap: 5px; margin: 0; padding: 5px 10px; border-radius: 14px;
+  background: var(--paper); box-shadow: var(--shadow); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.pools i { width: 11px; height: 11px; border-radius: 50%; border: 2px solid #b39b6c; background: #e9dcc0; transition: background 0.4s, border-color 0.4s, transform 0.4s; }
+.pools i.awake { background: #3e9fd2; border-color: #2b7aa8; }
+.pools i.heart { width: 17px; height: 17px; margin-left: 4px; border-color: #8f8172; background: radial-gradient(circle, #cdbb98 30%, #e9dcc0 32%); }
+.pools i.heart.awake { border-color: #3f7f36; background: radial-gradient(circle, #f6c3cf 28%, #5f9e47 30%); }
+.pools i.pulse { animation: pool-pulse 0.9s ease-out; }
+@keyframes pool-pulse { 0% { transform: scale(1); } 35% { transform: scale(1.7); } 100% { transform: scale(1); } }
+
+.actions { display: flex; gap: 8px; }
+.action { min-width: 56px; height: 56px; border-radius: 16px; border: 0; background: var(--paper); box-shadow: var(--shadow);
+  display: grid; place-items: center; font-size: 20px; line-height: 1; padding: 6px 8px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.action i { font-style: normal; }
+.action span { font-size: 11px; color: var(--ink-soft); }
+.action:disabled { opacity: 0.4; cursor: default; }
+
+.pad { display: grid; grid-template-columns: repeat(3, 52px); grid-template-rows: repeat(2, 52px); gap: 6px; }
+.pad button { border: 0; border-radius: 14px; background: var(--paper); box-shadow: var(--shadow); font-size: 16px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); touch-action: manipulation; }
+.pad [data-dir="up"] { grid-column: 2; grid-row: 1; }
+.pad [data-dir="left"] { grid-column: 1; grid-row: 2; }
+.pad [data-dir="down"] { grid-column: 2; grid-row: 2; }
+.pad [data-dir="right"] { grid-column: 3; grid-row: 2; }
+.pad button:active, .action:active, .chip:active { transform: scale(0.94); }
+@media (hover: hover) and (pointer: fine) and (min-width: 700px) { .pad { display: none; } }
+/* Very narrow phones: pad and actions side by side don't fit; tighten the pad, stack Rewind above Undo/Redo. */
+@media (max-width: 380px) {
+  .pad { grid-template-columns: repeat(3, 48px); grid-template-rows: repeat(2, 48px); }
+  .actions { display: grid; grid-template-columns: repeat(2, 56px); }
+  #rewind { grid-area: 1 / 2; } #undo { grid-area: 2 / 1; } #redo { grid-area: 2 / 2; }
+  .place { font-size: 13px; }
+}
+
+.status { position: absolute; left: 50%; bottom: calc(max(14px, env(safe-area-inset-bottom)) + 70px); transform: translateX(-50%);
+  margin: 0; padding: 8px 14px; border-radius: 14px; background: rgba(43, 42, 38, 0.78); color: #fff; font-size: 14px;
+  max-width: min(86vw, 420px); text-align: center; pointer-events: none; transition: opacity 0.3s; }
+.status:empty { opacity: 0; }
+/* Clear the two-row D-pad wherever it shows. */
+@media not ((hover: hover) and (pointer: fine) and (min-width: 700px)) { .status { bottom: calc(max(14px, env(safe-area-inset-bottom)) + 124px); } }
+
+.outside { position: absolute; right: max(12px, env(safe-area-inset-right)); top: calc(max(12px, env(safe-area-inset-top)) + 56px);
+  margin: 0; padding: 6px; border-radius: 14px; background: var(--paper); box-shadow: var(--shadow); pointer-events: none;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.outside canvas { display: block; width: 92px; height: 92px; border-radius: 9px; image-rendering: pixelated; }
+.outside figcaption { font-size: 11px; text-align: center; color: var(--ink-soft); margin-top: 3px; }
+@media (min-width: 700px) { .outside canvas { width: 128px; height: 128px; } }
+.prompt { position: absolute; transform: translate(-50%, -100%); padding: 6px 12px; border-radius: 12px; background: var(--paper-solid);
+  box-shadow: var(--shadow); font-size: 14px; font-weight: 600; pointer-events: none; white-space: nowrap; }
+.prompt::after { content: ""; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%) rotate(45deg);
+  width: 12px; height: 12px; background: var(--paper-solid); }
+
+.card { position: absolute; left: 50%; transform: translate(-50%, -50%); top: 50%; width: min(88vw, 380px);
+  padding: 28px 26px; border-radius: 24px; background: var(--paper); box-shadow: var(--shadow); text-align: center;
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.card h1 { margin: 0 0 6px; font-size: 34px; letter-spacing: 0.02em; }
+.card h2 { margin: 0 0 6px; font-size: 24px; }
+.card p { margin: 0 0 18px; color: var(--ink-soft); }
+.card .fine { margin: 14px 0 0; font-size: 13px; }
+dialog.ending { text-align: center; width: min(90vw, 400px); }
+dialog.ending h2 { font-size: 21px; margin-bottom: 8px; } dialog.ending p { margin: 0 0 6px; color: var(--ink-soft); }
+dialog.ending a { color: var(--accent); font-weight: 600; } dialog.ending form { text-align: center; }
+dialog form.row { justify-content: flex-end; }
+/* Safii's speech bubble, anchored over her head by the app each frame. */
+.bubble { position: absolute; transform: translate(-50%, -100%); padding: 8px 14px; border-radius: 16px; background: #fff; color: var(--ink);
+  font-weight: 700; font-size: 15px; box-shadow: var(--shadow); pointer-events: none; white-space: nowrap; animation: bubble-in 0.35s cubic-bezier(.3,1.6,.5,1) both; }
+.bubble::after { content: ""; position: absolute; left: 50%; bottom: -7px; transform: translateX(-50%) rotate(45deg); width: 14px; height: 14px; background: #fff; }
+@keyframes bubble-in { from { transform: translate(-50%, -80%) scale(0.4); opacity: 0; } }
+.row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.card button, dialog button { min-height: 44px; padding: 0 18px; border-radius: 22px; border: 1px solid rgba(43, 42, 38, 0.15);
+  background: var(--paper-solid); }
+.primary { background: var(--accent) !important; color: #fff !important; border-color: transparent !important; font-weight: 600; }
+
+dialog { border: 0; border-radius: 22px; padding: 24px; width: min(90vw, 440px); background: var(--paper-solid); color: var(--ink);
+  box-shadow: var(--shadow); }
+dialog::backdrop { background: rgba(30, 30, 25, 0.35); }
+dialog h2 { margin-top: 0; }
+dialog li { margin-bottom: 8px; line-height: 1.4; }
+dialog form { text-align: right; margin-top: 12px; }
+.pick { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.pick button { width: 100%; text-align: left; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+@media (forced-colors: active) {
+  .pools i, .pools i.heart { border-color: CanvasText; background: Canvas; } .pools i.awake, .pools i.heart.awake { background: Highlight; }
+  .bubble, .bubble::after { border: 1px solid CanvasText; background: Canvas; color: CanvasText; }
+  .chip, .action, .pad button, .card, .place, .pools, .status, .prompt { border: 1px solid ButtonText; background: Canvas; color: CanvasText; }
+  .primary { background: ButtonFace !important; color: ButtonText !important; border: 3px solid ButtonText !important; }
+}

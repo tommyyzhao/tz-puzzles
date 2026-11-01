@@ -1,0 +1,6 @@
+// Cloudflare Workers static assets: goldenhills.tz.mt (DNS and zone owned by the tz.mt deploy lead).
+{
+  "name": "goldenhills",
+  "compatibility_date": "2026-10-01",
+  "assets": { "directory": "." }
+}

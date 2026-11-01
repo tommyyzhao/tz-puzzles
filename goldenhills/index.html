@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">
+  <title>Golden Hills</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='2' y='4' width='12' height='10' rx='2' fill='%23d9c9a8'/%3E%3Cpath d='M6 14V10a2 2 0 0 1 4 0v4z' fill='%232e2620'/%3E%3Cpath d='M2 7h12' stroke='%233f9fd0' stroke-width='1.5'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./style.css">
+  <script type="importmap">
+    { "imports": {
+      "three": "./vendor/three/three.module.js",
+      "three/addons/": "./vendor/three/addons/",
+      "@sparkjsdev/spark": "./vendor/spark/spark.module.min.js"
+    } }
+  </script>
+</head>
+<body>
+  <main id="game">
+    <div class="fog" aria-hidden="true"></div>
+    <canvas id="scene" aria-describedby="status"></canvas>
+    <div class="vignette" aria-hidden="true"></div>
+
+    <header class="hud top">
+      <a class="chip" id="back" href="../" aria-label="Back to the collection" hidden>←</a>
+      <div class="place-wrap">
+        <p id="place" class="place" aria-live="polite"></p>
+        <div id="pools" class="pools" role="img" aria-label="Pools awake"></div>
+      </div>
+      <button class="chip" id="sound" type="button" aria-pressed="true" aria-label="Sound">♪</button>
+      <button class="chip" id="help-open" type="button" aria-label="How to play">?</button>
+    </header>
+
+    <figure id="outside" class="outside" hidden aria-hidden="true"><canvas width="160" height="160"></canvas><figcaption>Outside</figcaption></figure>
+    <div id="prompt" class="prompt" hidden></div>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+
+    <nav class="hud bottom" aria-label="Controls">
+      <div class="pad" role="group" aria-label="Move">
+        <button type="button" data-dir="up" aria-label="Up">▲</button>
+        <button type="button" data-dir="left" aria-label="Left">◀</button>
+        <button type="button" data-dir="down" aria-label="Down">▼</button>
+        <button type="button" data-dir="right" aria-label="Right">▶</button>
+      </div>
+      <div class="actions">
+        <button type="button" id="undo" class="action" aria-label="Undo" aria-keyshortcuts="Z"><i aria-hidden="true">↶</i><span>Undo</span></button>
+        <button type="button" id="redo" class="action" aria-label="Redo" aria-keyshortcuts="Shift+Z"><i aria-hidden="true">↷</i><span>Redo</span></button>
+        <button type="button" id="rewind" class="action" aria-label="Rewind a clearing" aria-keyshortcuts="R"><i aria-hidden="true">⟲</i><span>Rewind</span></button>
+      </div>
+    </nav>
+
+    <section id="title" class="card title">
+      <h1>Golden Hills</h1>
+      <p>Dry hills, and a small stone box.</p>
+      <button type="button" id="begin" class="primary">Begin</button>
+      <p class="fine">Arrow keys or WASD · tap a tile · swipe · Z undo</p>
+    </section>
+
+    <div id="bubble" class="bubble" hidden aria-hidden="true">hi! thanks for the rain!</div>
+  </main>
+
+  <dialog id="ending" class="ending" aria-labelledby="ending-title">
+    <h2 id="ending-title">You brought the rain back to Golden Hills.</h2>
+    <p>Say hi to Safii at <a href="https://safii.tz.mt" target="_blank" rel="noopener">safii.tz.mt</a></p>
+    <form method="dialog"><button id="stay" class="primary" autofocus>Keep walking</button></form>
+  </dialog>
+
+  <dialog id="help">
+    <h2>How to play</h2>
+    <ul>
+      <li><b>Move</b> with arrow keys or WASD, by tapping a tile next to you, or by swiping. Tap a farther tile to walk there.</li>
+      <li><b>Push</b> stones and boxes by walking into them.</li>
+      <li><b>Arches</b> are doorways. Walk into one to go inside.</li>
+      <li><b>Undo</b> anything with Z (Shift+Z redoes). <b>Rewind</b> (R) puts a clearing back as it began, even one you finished. Pools you woke stay awake.</li>
+    </ul>
+    <p>Everything else, the hills will show you.</p>
+    <form method="dialog" class="row"><button type="button" id="credits-open">Credits</button><button type="button" id="replay">Start over</button><button class="primary">Close</button></form>
+  </dialog>
+
+  <dialog id="rewind-pick" aria-labelledby="rewind-title">
+    <h2 id="rewind-title">Rewind which clearing?</h2>
+    <p>It goes back as it began. Pools you woke stay awake, and Undo brings it back.</p>
+    <ul id="rewind-list" class="pick"></ul>
+    <form method="dialog"><button>Cancel</button></form>
+  </dialog>
+
+  <dialog id="credits">
+    <h2>Golden Hills</h2>
+    <p>Made for this collection. Rendering by three.js and Spark (MIT). Every model, texture, sound and note is generated in your browser.</p>
+    <form method="dialog"><button class="primary">Close</button></form>
+  </dialog>
+
+  <script type="module" src="./app.mjs"></script>
+</body>
+</html>

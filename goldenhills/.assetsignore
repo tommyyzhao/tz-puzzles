@@ -1,0 +1,9 @@
+.git
+.wrangler
+node_modules
+wrangler.jsonc
+.assetsignore
+*.md
+*.test.mjs
+solve.mjs
+witness.mjs
