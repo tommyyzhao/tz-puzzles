@@ -2,6 +2,12 @@
 
 2026-10-28. **Human N=0. Cognitive fidelity UNVALIDATED / STILL UNTESTED.** Automated interaction is not human playtesting. Primary original-game interaction is limited to the Type Help retrieval trace in `EVIDENCE.md`; other selected comparisons have developer descriptions with explicit precision gaps.
 
+## Golden Hills: sound on first gesture, binaural beat — 2026-10-31
+
+Sound now starts on the first key, click or tap (D37); before, a returning player heard nothing until the sound button was turned off and on. The music now has a 2.5 Hz binaural pair: 146.83 Hz in the left ear, 149.33 Hz in the right (D38).
+
+**Verified (headless Chrome for Testing):** a returning player's save (title skipped) has no audio context before input; after one arrow key there is exactly one context and it is `running`. Exactly two oscillators feed the stereo merger: sine 146.83 Hz into the left input and sine 149.33 Hz into the right. 62/62 tests; 29/29 interaction checks; no console messages. Deployed as Worker version `2ab6b1bd` (live `app.mjs` and `audio.mjs` match local). **Not verified:** listening by ear (level, comfort, whether the beat is perceptible), real devices, iOS Safari's gesture rules.
+
 ## Golden Hills: no name in the ending — 2026-10-31
 
 The ending modal shows only the link `safii.tz.mt`, and the speech has no speaker name (D36). The ending dialog appears about 15 s after the last push from the reset save (screenshot checked); 17/17 Golden Hills tests; 29/29 interaction checks, no console messages. Deployed as Worker version `b139dad5`: the live `/` and `app.mjs` match local byte for byte, `/witness.mjs` is 404, `/vendor/*` is immutable.

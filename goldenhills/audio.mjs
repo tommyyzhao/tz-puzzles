@@ -5,7 +5,7 @@
 import { water, cellAt } from './model.mjs';
 
 // D major pentatonic over two octaves (Hz). Music sits in D so the finale can land on a bright D major chord.
-const D = 146.83, SCALE = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21, 24].map(s => D * 2 ** (s / 12));
+const D = 146.83, BEAT = 2.5, SCALE = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21, 24].map(s => D * 2 ** (s / 12));
 
 export function createAudio(world) {
   let ctx = null, master = null, music = null, sfx = null, wet = null, bed = null, bedGain = null, on = true;
@@ -45,6 +45,11 @@ export function createAudio(world) {
       for (const hz of [D / 2, D * 0.75]) { const o = ctx.createOscillator(); o.type = 'triangle'; o.frequency.value = hz; o.connect(f); o.start(); }
       const lfo = ctx.createOscillator(), lg = ctx.createGain(); lfo.frequency.value = 0.07; lg.gain.value = 250; lfo.connect(lg).connect(f.frequency); lfo.start();
       drone.gain.setTargetAtTime(0.05, ctx.currentTime, 3);
+      // Binaural beat: a pure D3 (the music's root) in the left ear and D3 + 2.5 Hz in the right. Kept dry (no reverb)
+      // so each ear hears only its own tone; on mono speakers it becomes a gentle 2.5 Hz swell instead.
+      const ears = ctx.createChannelMerger(2), eg = ctx.createGain(); eg.gain.value = 0; ears.connect(eg).connect(comp);
+      [D, D + BEAT].forEach((hz, ch) => { const o = ctx.createOscillator(); o.frequency.value = hz; o.connect(ears, 0, ch); o.start(); });
+      eg.gain.setTargetAtTime(0.04, ctx.currentTime, 3);
       schedule();
     }
     ctx.resume?.();
@@ -172,5 +177,5 @@ export function createAudio(world) {
     if (master) master.gain.setTargetAtTime(v ? 0.55 : 0, ctx.currentTime, 0.05);
   }
 
-  return { start, play, enabled };
+  return { start, play, enabled, running: () => ctx?.state === 'running' };
 }

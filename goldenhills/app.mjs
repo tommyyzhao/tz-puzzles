@@ -361,7 +361,6 @@ $('replay').onclick = () => {
 };
 function begin() {
   $('title').hidden = true;
-  startAudio?.();
   refresh();
   // A first look: the dry heart the valley needs, then back to you and the stone box.
   if (cursor === 0 && !reduced) { view.intro(); say('The old oak at the heart of the hills is dying of thirst.', 3800); }
@@ -369,7 +368,7 @@ function begin() {
 $('begin').onclick = begin;
 
 // ---- Sound (optional module; the game is complete without it) ----
-let sound = null, startAudio = null;
+let sound = null;
 import('./audio.mjs').then(m => {
   const a = m.createAudio(world);
   const on = localStorage.getItem('goldenhills:sound') !== 'off';
@@ -377,11 +376,14 @@ import('./audio.mjs').then(m => {
   $('sound').setAttribute('aria-pressed', String(on));
   $('sound').onclick = () => {
     const v = $('sound').getAttribute('aria-pressed') !== 'true';
-    $('sound').setAttribute('aria-pressed', String(v)); a.enabled(v); a.start();
+    $('sound').setAttribute('aria-pressed', String(v)); a.enabled(v); a.start(state());
     try { localStorage.setItem('goldenhills:sound', v ? 'on' : 'off'); } catch {}
   };
   sound = ev => a.play(ev, state());
-  startAudio = () => a.start(state());
+  // Browsers start audio only from a gesture, and returning players never see Begin: any key or tap starts it.
+  const GESTURES = ['keydown', 'pointerdown', 'pointerup'];   // mouse activates on down, touch on up
+  const kick = () => { a.start(state()); if (a.running()) GESTURES.forEach(t => removeEventListener(t, kick, true)); };
+  GESTURES.forEach(t => addEventListener(t, kick, true));
 }).catch(() => { $('sound').hidden = true; });
 
 // ---- Finale: the renderer follows the water and calls back at each beat; the words name what is happening. ----

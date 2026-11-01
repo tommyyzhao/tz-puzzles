@@ -231,3 +231,13 @@ The user asked for a rebrand to "Golden Hills" (the hills around the Bay Area), 
   - **Speech:** the status line and the reduced-motion text say "hi! thanks for the rain!" with no speaker name. The bubble already had none.
   - **Kept:** internal identifiers (`safii.mjs`, cue names) are not shown to players.
   - **Reverse:** restore the text in `index.html` (ending dialog) and the two `say` calls in `app.mjs`.
+- **D37 Sound starts on the first key or tap** (user, 2026-10-31: "I can't seem to hear any of the music by defailt - I seemingly have to click on the music icon, turn it off then on again").
+  - **Cause:** audio started only from Begin. A returning player skips the title screen, so nothing created the audio context until the sound button was turned off and on.
+  - **Fix:** the first key press, click or tap anywhere starts the sound (browsers require a gesture). The listeners remove themselves once audio is running. The sound button and the saved off setting work as before.
+  - **Rejected:** starting audio on page load (browsers block it), or an extra "tap to enable sound" prompt.
+  - **Reverse:** remove the `GESTURES` listeners in `app.mjs` and call the audio start from `begin()` again.
+- **D38 A 2.5 Hz binaural beat under the music** (user, 2026-10-31: "ensure there is a 2-3hz binaural beat included … those pure tones should match the music approximately but the left and right differential should be deliberate").
+  - **What:** two pure sine tones, D3 (146.83 Hz, the music's root) in the left channel only and 149.33 Hz in the right only, so the difference is 2.5 Hz.
+  - **Routing:** they are mixed in quietly through a stereo channel merger, with no reverb (reverb would mix the ears). They fade in with the dry drone and play throughout, including the D major finale.
+  - **Note:** the beat is binaural only on headphones. On speakers the two tones mix in the air into a soft 2.5 Hz swell.
+  - **Reverse:** remove the `BEAT` pair in `audio.mjs` `start()`. Change `BEAT` (2–3) or the root to retune.
