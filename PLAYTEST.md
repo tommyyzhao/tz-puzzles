@@ -2,6 +2,13 @@
 
 **Status: human N=0. Cognitive fidelity UNVALIDATED / STILL UNTESTED.** Agent/browser checks are implementation checks, never participants. Predictions and their timing are recorded in `STUDY.md`; all precede human playtesting. Do not show participants that file, source modules, solutions, this protocol's hypotheses, or comparison labels beforehand.
 
+## Golden Hills — what to look for (2026-10-31)
+
+Play at http://127.0.0.1:8765/goldenhills/ or https://goldenhills.tzpersonal.workers.dev. To jump to the last push, open http://127.0.0.1:8765/.local/reset-save.html (local only).
+1. Do the dry hills read as golden Bay Area summer, and the woken ones as a wet green spring? Does the fog clearing feel like progress?
+2. At the end, do you notice Safii's eyes in the oak before the bubble, and read them as a creature?
+3. Is the ending modal's timing right (not too soon after "hi"), and does "Keep walking" feel natural?
+
 ## Stillwater phase 2 — what to look for (2026-10-31)
 
 Play from a fresh start (Start over, or clear site data). With sound on if possible.

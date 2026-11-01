@@ -2,6 +2,12 @@
 
 2026-10-28. **Human N=0. Cognitive fidelity UNVALIDATED / STILL UNTESTED.** Automated interaction is not human playtesting. Primary original-game interaction is limited to the Type Help retrieval trace in `EVIDENCE.md`; other selected comparisons have developer descriptions with explicit precision gaps.
 
+## Golden Hills: Safii eyes only — 2026-10-31
+
+Safii no longer hops out (D35): only her eyes peek out of a dark gap in the old oak's canopy. They open, blink, glance about, and say "hi! thanks for the rain!" in the bubble; then the ending modal appears. This replaces the hop-out described in the next section.
+
+**Verified (headless Chrome for Testing):** 62/62 tests; 29/29 interaction checks; from a save one move before the oak, the ending dialog appears about 15 s after the last push. The live site (Worker version `08aed85e`) serves byte-identical `safii.mjs`, `render.mjs`, `app.mjs` and `/` (SHA-256 checked). **Not verified:** real devices, a human's reaction.
+
 ## Golden Hills: rebrand, Safii ending and deployment — 2026-10-31
 
 Stillwater became **Golden Hills** (D30–D34): Bay Area summer-gold hills that turn neon green after the rain, coast live oaks, fog that burns off as pools wake. At the end Safii, a lime slime, hops out from under the old oak, says "hi! thanks for the rain!", and a minimal modal links to safii.tz.mt. The folder moved to `goldenhills/` (old saves carry over).
