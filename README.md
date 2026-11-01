@@ -13,6 +13,10 @@ Six playable **visual** puzzles in a responsive studio: shapes and barriers; a p
 
 More: [decisions](goldenhills/DECISIONS.md), [playtest notes](PLAYTEST.md), [checks](RESULTS.md). Human pacing and fun are unvalidated. The old `garden.html` build is retired but kept.
 
+## Verdigris — a liquid puzzle game
+
+**[tommyyzhao/verdigris](https://github.com/tommyyzhao/verdigris)** (submodule: `verdigris/`, run `git submodule update --init verdigris`) is a six-room liquid puzzle game on svelte-fluid's air and liquid engines. It is a SvelteKit app, unlike the dependency-free studio below: `cd verdigris && bun install && bun run dev`. Its playtest has not run yet.
+
 ## Play locally
 
 From this directory:

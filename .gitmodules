@@ -1,3 +1,6 @@
 [submodule "memory"]
 	path = memory
 	url = https://github.com/tommyyzhao/tz-puzzles-memory.git
+[submodule "verdigris"]
+	path = verdigris
+	url = https://github.com/tommyyzhao/verdigris.git
