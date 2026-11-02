@@ -2,6 +2,19 @@
 
 2026-10-28. **Human N=0. Cognitive fidelity UNVALIDATED / STILL UNTESTED.** Automated interaction is not human playtesting. Primary original-game interaction is limited to the Type Help retrieval trace in `EVIDENCE.md`; other selected comparisons have developer descriptions with explicit precision gaps.
 
+## Golden Hills on sloprefinery.ai — 2026-11-02
+
+The game is live at https://goldenhills.sloprefinery.ai, and the ending links to https://safii.sloprefinery.ai (D39). Worker version `2c44c7bc`, served through the deploy lead's Pages proxy.
+
+**Verified (headless Chrome for Testing, public DNS):**
+- the full witness playthrough on the new host reaches the ending dialog about 15 s after the last push;
+- the ending link is `https://safii.sloprefinery.ai/`, and that site returns 200 with a valid certificate;
+- no console messages, and every request goes to goldenhills.sloprefinery.ai;
+- `/`, `app.mjs` and `audio.mjs` match local byte for byte;
+- `/witness.mjs` is 404.
+
+**Not verified:** this Mac's own resolver (it had cached "no such domain" from before the records existed; checked through 1.1.1.1 instead).
+
 ## Golden Hills: sound on first gesture, binaural beat — 2026-10-31
 
 Sound now starts on the first key, click or tap (D37); before, a returning player heard nothing until the sound button was turned off and on. The music now has a 2.5 Hz binaural pair: 146.83 Hz in the left ear, 149.33 Hz in the right (D38).

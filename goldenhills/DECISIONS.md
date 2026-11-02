@@ -245,4 +245,4 @@ The user asked for a rebrand to "Golden Hills" (the hills around the Bay Area), 
   - **Ending link:** `safii.sloprefinery.ai` (was `safii.tz.mt`).
   - **Game host:** goldenhills.sloprefinery.ai, coordinated with the deploy lead. Until then it is served at https://goldenhills.tzpersonal.workers.dev.
   - **How it's served:** the DNS is at Namecheap, so a Worker custom domain can't attach. The deploy lead's Pages project `goldenhills` forwards every request to this Worker; a CNAME `goldenhills` points at `goldenhills.pages.dev`. A normal `wrangler deploy` shows up there with no route.
-  - **Held:** the live Worker keeps the old link until safii.sloprefinery.ai answers, so players never get a dead link. The new link ships with the custom-domain deploy.
+  - **Shipped** (Worker `2c44c7bc`) once both hosts answered over HTTPS, so players never got a dead link.
