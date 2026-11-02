@@ -1,4 +1,4 @@
-// Cloudflare Workers static assets: goldenhills.tz.mt (DNS and zone owned by the tz.mt deploy lead).
+// Cloudflare Workers static assets: goldenhills.sloprefinery.ai.
 {
   "name": "goldenhills",
   "compatibility_date": "2026-10-01",

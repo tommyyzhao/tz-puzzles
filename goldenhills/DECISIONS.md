@@ -241,3 +241,7 @@ The user asked for a rebrand to "Golden Hills" (the hills around the Bay Area), 
   - **Routing:** they are mixed in quietly through a stereo channel merger, with no reverb (reverb would mix the ears). They fade in with the dry drone and play throughout, including the D major finale.
   - **Note:** the beat is binaural only on headphones. On speakers the two tones mix in the air into a soft 2.5 Hz swell.
   - **Reverse:** remove the `BEAT` pair in `audio.mjs` `start()`. Change `BEAT` (2–3) or the root to retune.
+- **D39 Domain moves to sloprefinery.ai** (user, 2026-11-02: "tz.mt is no longer the target as teh cloudflare move is taking too long. Note the final game winning url should be updated to safii.sloprefinery.ai").
+  - **Ending link:** `safii.sloprefinery.ai` (was `safii.tz.mt`).
+  - **Game host:** goldenhills.sloprefinery.ai, coordinated with the deploy lead. Until then it is served at https://goldenhills.tzpersonal.workers.dev.
+  - **Held:** the live Worker keeps the old link until safii.sloprefinery.ai answers, so players never get a dead link. The new link ships with the custom-domain deploy.

@@ -4,7 +4,7 @@ Six playable **visual** puzzles in a responsive studio: shapes and barriers; a p
 
 ## Golden Hills — dry hills, and a small stone box
 
-**[Play Golden Hills](https://goldenhills.tz.mt)** (local: `goldenhills/`) — a pocket-world puzzle game across one continuous stretch of hills, rebuilt from scratch on 2026-10-30, polished and rebranded on 2026-10-31 (formerly Stillwater).
+**[Play Golden Hills](https://goldenhills.tzpersonal.workers.dev)** (local: `goldenhills/`) — a pocket-world puzzle game across one continuous stretch of hills, rebuilt from scratch on 2026-10-30, polished and rebranded on 2026-10-31 (formerly Stillwater).
 - **Boxes:** pushed by their solid faces, entered through their arches, and nested inside each other.
 - **Water** flows through the boxes to wake the valley's pools.
 - **Look:** Three.js diorama with a grid-aligned camera and a splat backdrop.
