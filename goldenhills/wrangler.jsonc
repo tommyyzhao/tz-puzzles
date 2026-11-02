@@ -1,4 +1,5 @@
-// Cloudflare Workers static assets: goldenhills.sloprefinery.ai.
+// Cloudflare Workers static assets. Served at goldenhills.sloprefinery.ai through the deploy lead's Pages project
+// `goldenhills` (service binding to this Worker; the DNS is at Namecheap). Keep the Worker name: the proxy depends on it.
 {
   "name": "goldenhills",
   "compatibility_date": "2026-10-01",

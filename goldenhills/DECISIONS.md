@@ -244,4 +244,5 @@ The user asked for a rebrand to "Golden Hills" (the hills around the Bay Area), 
 - **D39 Domain moves to sloprefinery.ai** (user, 2026-11-02: "tz.mt is no longer the target as teh cloudflare move is taking too long. Note the final game winning url should be updated to safii.sloprefinery.ai").
   - **Ending link:** `safii.sloprefinery.ai` (was `safii.tz.mt`).
   - **Game host:** goldenhills.sloprefinery.ai, coordinated with the deploy lead. Until then it is served at https://goldenhills.tzpersonal.workers.dev.
+  - **How it's served:** the DNS is at Namecheap, so a Worker custom domain can't attach. The deploy lead's Pages project `goldenhills` forwards every request to this Worker; a CNAME `goldenhills` points at `goldenhills.pages.dev`. A normal `wrangler deploy` shows up there with no route.
   - **Held:** the live Worker keeps the old link until safii.sloprefinery.ai answers, so players never get a dead link. The new link ships with the custom-domain deploy.
